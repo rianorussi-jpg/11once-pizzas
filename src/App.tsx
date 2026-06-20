@@ -35,7 +35,7 @@ const MENU = {
   clasicas: {
     label: "Clásicas",
     items: [
-      { id: "oncerita",       img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=120&h=120&fit=crop&crop=center", nombre: "Oncerita",       desc: "Margarita Clásica",               precios: { Slice: 111, Normal: 222 } },
+      { id: "oncerita",       img: "https://i.ibb.co/8nNMVp01/IMG-5714.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Oncerita",       desc: "Margarita Clásica",               precios: { Slice: 111, Normal: 222 } },
       { id: "micelio-urbano", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=120&h=120&fit=crop&crop=center", nombre: "Micelio Urbano", desc: "Hongos silvestres",               precios: { Slice: 111, Normal: 222 } },
       { id: "huerto11",       img: "https://images.unsplash.com/photo-1548369937-47519962c11a?w=120&h=120&fit=crop&crop=center", nombre: "Huerto11",        desc: "Vegetales de temporada",          precios: { Slice: 111, Normal: 222 } },
       { id: "aloha-once",     img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=120&h=120&fit=crop&crop=center", nombre: "Aloha Once",     desc: "Jamones premium & Piña",          precios: { Slice: 111, Normal: 222 } },
