@@ -25,22 +25,22 @@ const MENU = {
   especiales: {
     label: "Especiales",
     items: [
-      { id: "monte-alban",    img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=120&h=120&fit=crop&crop=center", nombre: "Monte Albán",    desc: "Chapulines & Queso Oaxaca",       precios: { Slice: 133, Normal: 333 }, top: true },
-      { id: "cowabunga",      img: "https://images.unsplash.com/photo-1548369937-47519962c11a?w=120&h=120&fit=crop&crop=center", nombre: "Cowabunga",       desc: "Anchos & Aceituna verde",          precios: { Slice: 133, Normal: 333 } },
-      { id: "dolce-pera",     img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=120&h=120&fit=crop&crop=center", nombre: "Dolce Pera 22", desc: "Gorgonzola & Pera",               precios: { Slice: 133, Normal: 333 } },
-      { id: "serrazul",       img: "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=120&h=120&fit=crop&crop=center", nombre: "Serrazul",       desc: "Jamón Serrano & Roquefort",       precios: { Slice: 133, Normal: 333 } },
-      { id: "hellboy",        img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=120&h=120&fit=crop&crop=center", nombre: "Hellboy",        desc: "Extra Pepperoni",                 precios: { Slice: 133, Normal: 333 }, top: true },
+      { id: "monte-alban",    img: "https://i.ibb.co/0jPrFDbd/IMG-5715.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Monte Albán",    desc: "Chapulines & Queso Oaxaca",       precios: { Slice: 133, Normal: 333 }, top: true },
+      { id: "cowabunga",      img: "https://i.ibb.co/PGWKC6Mw/IMG-5719.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Cowabunga",       desc: "Anchos & Aceituna verde",          precios: { Slice: 133, Normal: 333 } },
+      { id: "dolce-pera",     img: "https://i.ibb.co/Rk64DZTm/IMG-5718.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Dolce Pera 22", desc: "Gorgonzola & Pera",               precios: { Slice: 133, Normal: 333 } },
+      { id: "serrazul",       img: "https://i.ibb.co/KzmtWG8T/IMG-5713.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Serrazul",       desc: "Jamón Serrano & Roquefort",       precios: { Slice: 133, Normal: 333 } },
+      { id: "hellboy",        img: "https://i.ibb.co/nNwPmstH/IMG-5717.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Hellboy",        desc: "Extra Pepperoni",                 precios: { Slice: 133, Normal: 333 }, top: true },
     ],
   },
   clasicas: {
     label: "Clásicas",
     items: [
       { id: "oncerita",       img: "https://i.ibb.co/8nNMVp01/IMG-5714.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Oncerita",       desc: "Margarita Clásica",               precios: { Slice: 111, Normal: 222 } },
-      { id: "micelio-urbano", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=120&h=120&fit=crop&crop=center", nombre: "Micelio Urbano", desc: "Hongos silvestres",               precios: { Slice: 111, Normal: 222 } },
-      { id: "huerto11",       img: "https://images.unsplash.com/photo-1548369937-47519962c11a?w=120&h=120&fit=crop&crop=center", nombre: "Huerto11",        desc: "Vegetales de temporada",          precios: { Slice: 111, Normal: 222 } },
-      { id: "aloha-once",     img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=120&h=120&fit=crop&crop=center", nombre: "Aloha Once",     desc: "Jamones premium & Piña",          precios: { Slice: 111, Normal: 222 } },
-      { id: "triple-corte",   img: "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=120&h=120&fit=crop&crop=center", nombre: "Triple Corte",   desc: "Mezcla de jamones premium",       precios: { Slice: 111, Normal: 222 } },
-      { id: "11once",         img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=120&h=120&fit=crop&crop=center", nombre: "11Once",         desc: "Mezcla de queso de la casa",      precios: { Slice: 111, Normal: 199 } },
+      { id: "micelio-urbano", img: "https://i.ibb.co/p6jxJLMd/IMG-5716.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Micelio Urbano", desc: "Hongos silvestres",               precios: { Slice: 111, Normal: 222 } },
+      { id: "huerto11",       img: "https://i.ibb.co/YBZXzv94/IMG-5711.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Huerto11",        desc: "Vegetales de temporada",          precios: { Slice: 111, Normal: 222 } },
+      { id: "aloha-once",     img: "https://i.ibb.co/ppnXrRy/IMG-5710.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Aloha Once",     desc: "Jamones premium & Piña",          precios: { Slice: 111, Normal: 222 } },
+      { id: "triple-corte",   img: "https://i.ibb.co/20Rsj93T/IMG-5712.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Triple Corte",   desc: "Mezcla de jamones premium",       precios: { Slice: 111, Normal: 222 } },
+      { id: "11once",         img: "https://i.ibb.co/zV7LZv1Q/IMG-5720.jpg?w=120&h=120&fit=crop&crop=center", nombre: "11Once",         desc: "Mezcla de queso de la casa",      precios: { Slice: 111, Normal: 199 } },
     ],
   },
 };
