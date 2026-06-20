@@ -610,7 +610,7 @@ export default function App() {
           <span style={{ fontSize: 28 }}>🍕</span>
           <div>
             <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.1 }}>11once Pizzas</div>
-            <div style={{ fontSize: 12, color: muted }}>Entrega y recolección · Querétaro</div>
+            <div style={{ fontSize: 12, color: muted }}>Entrega y recolección · CDMX</div>
           </div>
         </div>
         <div style={{
@@ -627,7 +627,7 @@ export default function App() {
       <div style={{ background: cardHi, borderBottom: `1px solid ${border}`, padding: "10px 20px", display: "flex", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 14 }}>📍</span>
         <span style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, color: muted }}>
-          Zonas: <b style={{ color: text }}>Centro · Cumbres · Juriquilla · Satélite</b>
+          Zonas: <b style={{ color: text }}>Narvarte · Del Valle · Coyoacán · Portales</b>
         </span>
       </div>
 
