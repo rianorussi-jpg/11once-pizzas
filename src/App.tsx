@@ -25,7 +25,7 @@ const MENU = {
   especiales: {
     label: "Especiales",
     items: [
-      { id: "monte-alban",    img: "https://i.ibb.co/0jPrFDbd/IMG-5715.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Monte Albán",    desc: "Chapulines & Queso Oaxaca",       precios: { Slice: 133, Normal: 333 }, },
+      { id: "monte-alban",    img: "https://i.ibb.co/0jPrFDbd/IMG-5715.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Monte Albán",    desc: "Chapulines & Queso Oaxaca",       precios: { Slice: 133, Normal: 333 }, top: true },
       { id: "cowabunga",      img: "https://i.ibb.co/PGWKC6Mw/IMG-5719.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Cowabunga",       desc: "Anchos & Aceituna verde",          precios: { Slice: 133, Normal: 333 } },
       { id: "dolce-pera",     img: "https://i.ibb.co/Rk64DZTm/IMG-5718.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Dolce Pera 22", desc: "Gorgonzola & Pera",               precios: { Slice: 133, Normal: 333 } },
       { id: "serrazul",       img: "https://i.ibb.co/KzmtWG8T/IMG-5713.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Serrazul",       desc: "Jamón Serrano & Roquefort",       precios: { Slice: 133, Normal: 333 } },
@@ -50,6 +50,11 @@ const HORARIOS = [
   "19:00–20:00", "20:00–21:00", "21:00–22:00", "22:00–23:00",
 ];
 
+const ZONAS = [
+  "Narvarte", "Del Valle", "Coyoacán", "Portales",
+  "Roma", "Doctores", "Álamos", "Obrera", "Nápoles",
+];
+
 // ── NOTIFICACIONES ────────────────────────────────────────────────────────────
 const enviarTelegram = async ({ datos, folio, carrito, entrega }) => {
   const items = carrito
@@ -59,7 +64,7 @@ const enviarTelegram = async ({ datos, folio, carrito, entrega }) => {
   const mensaje = `🍕 *Nuevo pedido ${folio}*
 
 👤 ${datos.nombre} | 📞 ${datos.telefono}
-${entrega.tipo === "domicilio" ? `📍 ${datos.direccion}` : "🏪 Recoger en tienda"}
+${entrega.tipo === "domicilio" ? `📍 ${datos.direccion}\n🏘 ${datos.colonia} · CP ${datos.cp}` : "🏪 Recoger en tienda"}
 ⏰ ${entrega.hora}
 💳 Pago: ${datos.pago}
 
@@ -87,6 +92,8 @@ const enviarEmailAdmin = ({ datos, folio, carrito, entrega }) => {
     telefono:     datos.telefono,
     tipo_entrega: entrega.tipo === "domicilio" ? "A domicilio" : "Recoger en tienda",
     direccion:    datos.direccion || "—",
+    colonia:      datos.colonia || "—",
+    cp:           datos.cp || "—",
     hora:         entrega.hora,
     pago:         datos.pago,
     items,
@@ -412,6 +419,8 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
   const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
   const [direccion, setDireccion] = useState("");
+  const [colonia, setColonia] = useState("");
+  const [cp, setCp] = useState("");
   const [pago, setPago] = useState("efectivo");
   const [notas, setNotas] = useState("");
   const [error, setError] = useState(null);
@@ -420,9 +429,11 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
   const handleConfirmar = async () => {
     if (!nombre.trim() || !telefono.trim()) { setError("Falta tu nombre o teléfono."); return; }
     if (entrega.tipo === "domicilio" && !direccion.trim()) { setError("Falta la dirección de entrega."); return; }
+    if (entrega.tipo === "domicilio" && !colonia) { setError("Selecciona tu colonia."); return; }
+    if (entrega.tipo === "domicilio" && !cp.trim()) { setError("Falta el código postal."); return; }
     setError(null);
     setEnviando(true);
-    await onConfirmar({ nombre, telefono, email, direccion, pago, notas });
+    await onConfirmar({ nombre, telefono, email, direccion, colonia, cp, pago, notas });
     setEnviando(false);
   };
 
@@ -450,8 +461,32 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
           <div>
             <span style={s.label}>Dirección de entrega</span>
             <textarea value={direccion} onChange={e => setDireccion(e.target.value)}
-              placeholder="Calle, número, colonia y referencias"
+              placeholder="Calle, número y referencias"
               rows={2} style={{ ...s.input, resize: "vertical" }} />
+          </div>
+        )}
+
+        {entrega.tipo === "domicilio" && (
+          <div>
+            <span style={s.label}>Colonia</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {ZONAS.map(z => (
+                <button key={z} onClick={() => setColonia(z)} style={{
+                  border: `1.5px solid ${z === colonia ? accent : border}`,
+                  background: z === colonia ? accent + "22" : card,
+                  borderRadius: 10, padding: "8px 14px",
+                  fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 600,
+                  color: z === colonia ? accent : muted, cursor: "pointer",
+                }}>{z}</button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {entrega.tipo === "domicilio" && (
+          <div>
+            <span style={s.label}>Código postal</span>
+            <input value={cp} onChange={e => setCp(e.target.value)} placeholder="03100" type="tel" maxLength={5} style={s.input} />
           </div>
         )}
 
