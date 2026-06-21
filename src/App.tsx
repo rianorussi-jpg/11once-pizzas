@@ -469,17 +469,12 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
         {entrega.tipo === "domicilio" && (
           <div>
             <span style={s.label}>Colonia</span>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <select value={colonia} onChange={e => setColonia(e.target.value)} style={{ ...s.input, appearance: "none", WebkitAppearance: "none" }}>
+              <option value="">Selecciona tu colonia…</option>
               {ZONAS.map(z => (
-                <button key={z} onClick={() => setColonia(z)} style={{
-                  border: `1.5px solid ${z === colonia ? accent : border}`,
-                  background: z === colonia ? accent + "22" : card,
-                  borderRadius: 10, padding: "8px 14px",
-                  fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 600,
-                  color: z === colonia ? accent : muted, cursor: "pointer",
-                }}>{z}</button>
+                <option key={z} value={z}>{z}</option>
               ))}
-            </div>
+            </select>
           </div>
         )}
 
