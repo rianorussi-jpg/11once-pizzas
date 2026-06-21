@@ -665,7 +665,7 @@ export default function App() {
               color: "#fcfcfc", display: "flex", alignItems: "center", gap: 5,
             }}>
               <span>{abierto ? "⚡" : "🌙"}</span>
-              {abierto ? "Abierto ahora" : "Cerrado"}
+              {abierto ? "Abierto ahora" : "Cerrado abre 11:11"}
             </div>
           );
         })()}
