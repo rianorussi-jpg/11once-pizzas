@@ -645,7 +645,7 @@ export default function App() {
       {/* HEADER */}
       <div style={{ borderBottom: `1px solid ${border}`, padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, background: bg, zIndex: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-<img src="https://i.ibb.co/Rk64DZTm/IMG-5718.jpg" alt="11once Pizzas" style={{ width: 70, height: 70, objectFit: "contain", borderRadius: 8 }} />          <div>
+<img src="https://i.ibb.co/Rk64DZTm/IMG-5718.jpg" alt="11once Pizzas" style={{ width: 40, height: 40, objectFit: "contain", borderRadius: 8 }} />          <div>
             <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.1 }}>11once Pizzas</div>
             <div style={{ fontSize: 12, color: muted }}>Entrega y recolección · CDMX</div>
           </div>
