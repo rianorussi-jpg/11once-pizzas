@@ -144,9 +144,11 @@ function Tag({ children, color = accent }) {
   return (
     <span style={{
       background: color + "22", color,
-      borderRadius: 20, padding: "4px 10px",
-      fontSize: 11, fontWeight: 700,
+      borderRadius: 20, padding: "3px 7px",
+      fontSize: 10, fontWeight: 700,
       fontFamily: "system-ui, sans-serif",
+      whiteSpace: "nowrap",
+      flexShrink: 0,
     }}>{children}</span>
   );
 }
@@ -228,10 +230,8 @@ function PizzaCard({ item, onAdd, carritoItems }) {
       onMouseLeave={e => e.currentTarget.style.borderColor = border}
     >
       <img src={item.img} alt={item.nombre} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
-
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2, flexWrap: "wrap" }}>
-  <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: text }}>{item.nombre}</span>
+<div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2, flexWrap: "nowrap" }}>
+  <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: text, flexShrink: 1, minWidth: 0 }}>{item.nombre}</span>
   {item.top && <Tag>⭐ Popular</Tag>}
 </div>
         <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, color: muted, margin: "0 0 10px", lineHeight: 1.4, textAlign: "left" }}>{item.desc}</p>
