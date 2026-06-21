@@ -25,7 +25,7 @@ const MENU = {
   especiales: {
     label: "Especiales",
     items: [
-      { id: "monte-alban",    img: "https://i.ibb.co/0jPrFDbd/IMG-5715.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Monte Albán",    desc: "Chapulines & Queso Oaxaca",       precios: { Slice: 133, Normal: 333 }, top: true },
+      { id: "monte-alban",    img: "https://i.ibb.co/0jPrFDbd/IMG-5715.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Monte Albán",    desc: "Chapulines & Queso Oaxaca",       precios: { Slice: 133, Normal: 333 }, },
       { id: "cowabunga",      img: "https://i.ibb.co/PGWKC6Mw/IMG-5719.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Cowabunga",       desc: "Anchos & Aceituna verde",          precios: { Slice: 133, Normal: 333 } },
       { id: "dolce-pera",     img: "https://i.ibb.co/Rk64DZTm/IMG-5718.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Dolce Pera 22", desc: "Gorgonzola & Pera",               precios: { Slice: 133, Normal: 333 } },
       { id: "serrazul",       img: "https://i.ibb.co/KzmtWG8T/IMG-5713.jpg?w=120&h=120&fit=crop&crop=center", nombre: "Serrazul",       desc: "Jamón Serrano & Roquefort",       precios: { Slice: 133, Normal: 333 } },
