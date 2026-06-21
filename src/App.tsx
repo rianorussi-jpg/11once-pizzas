@@ -644,7 +644,7 @@ export default function App() {
 
       {/* HEADER */}
       <div style={{ borderBottom: `1px solid ${border}`, padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, background: bg, zIndex: 10 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
 <img src="https://i.ibb.co/F4f7xnh8/Disen-o-sin-ti-tulo-6.png" alt="11once Pizzas" style={{ width: 70, height: 70, objectFit: "contain", borderRadius: 8 }} />          <div>
             <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.1 }}>11once Pizzas</div>
             <div style={{ fontSize: 12, color: muted }}>CDMX</div>
