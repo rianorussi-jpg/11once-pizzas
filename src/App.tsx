@@ -651,8 +651,9 @@ export default function App() {
           </div>
         </div>
         {(() => {
-          const now = new Date();
-          const mins = now.getHours() * 60 + now.getMinutes();
+         const now = new Date();
+const cdmx = new Date(now.toLocaleString("en-US", { timeZone: "America/Mexico_City" }));
+const mins = cdmx.getHours() * 60 + cdmx.getMinutes();
           const abre = 11 * 60 + 11;
           const cierra = 23 * 60 + 11;
           const abierto = mins >= abre && mins < cierra;
