@@ -650,14 +650,25 @@ export default function App() {
             <div style={{ fontSize: 12, color: muted }}>Entrega y recolección · CDMX</div>
           </div>
         </div>
-        <div style={{
-          background: "#1a0008", border: "1.5px solid #8b1729",
-          borderRadius: 20, padding: "6px 14px",
-          fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700, color: "#fcfcfc",
-          display: "flex", alignItems: "center", gap: 5,
-        }}>
-          <span>⚡</span> Abierto ahora
-        </div>
+        {(() => {
+          const now = new Date();
+          const mins = now.getHours() * 60 + now.getMinutes();
+          const abre = 11 * 60 + 11;
+          const cierra = 23 * 60 + 11;
+          const abierto = mins >= abre && mins < cierra;
+          return (
+            <div style={{
+              background: abierto ? "#1a0008" : "#1a1a1a",
+              border: `1.5px solid ${abierto ? "#8b1729" : "#555"}`,
+              borderRadius: 20, padding: "6px 14px",
+              fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700,
+              color: "#fcfcfc", display: "flex", alignItems: "center", gap: 5,
+            }}>
+              <span>{abierto ? "⚡" : "🌙"}</span>
+              {abierto ? "Abierto ahora" : "Cerrado"}
+            </div>
+          );
+        })()}
       </div>
 
       {/* ZONA */}
