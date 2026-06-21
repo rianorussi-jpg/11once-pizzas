@@ -64,7 +64,7 @@ const enviarTelegram = async ({ datos, folio, carrito, entrega }) => {
   const mensaje = `🍕 *Nuevo pedido ${folio}*
 
 👤 ${datos.nombre} | 📞 ${datos.telefono}
-${entrega.tipo === "domicilio" ? `📍 ${datos.direccion}\n🏘 ${datos.colonia} · CP ${datos.cp}` : "🏪 Recoger en tienda"}
+${entrega.tipo === "domicilio" ? `📍 ${datos.direccion}${datos.numInt ? ` Int. ${datos.numInt}` : ""}\n🏘 ${datos.colonia} · CP ${datos.cp}` : "🏪 Recoger en tienda"}
 ⏰ ${entrega.hora}
 💳 Pago: ${datos.pago}
 
@@ -420,6 +420,7 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
   const [email, setEmail] = useState("");
   const [direccion, setDireccion] = useState("");
   const [colonia, setColonia] = useState("");
+  const [numInt, setNumInt] = useState("");
   const [cp, setCp] = useState("");
   const [pago, setPago] = useState("efectivo");
   const [notas, setNotas] = useState("");
@@ -433,7 +434,7 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
     if (entrega.tipo === "domicilio" && !cp.trim()) { setError("Falta el código postal."); return; }
     setError(null);
     setEnviando(true);
-    await onConfirmar({ nombre, telefono, email, direccion, colonia, cp, pago, notas });
+    await onConfirmar({ nombre, telefono, email, direccion, numInt, colonia, cp, pago, notas });
     setEnviando(false);
   };
 
@@ -463,6 +464,13 @@ function PasoDatos({ entrega, carrito, onBack, onConfirmar }) {
             <textarea value={direccion} onChange={e => setDireccion(e.target.value)}
               placeholder="Calle, número y referencias"
               rows={2} style={{ ...s.input, resize: "vertical" }} />
+          </div>
+        )}
+
+        {entrega.tipo === "domicilio" && (
+          <div>
+            <span style={s.label}>Número interior <span style={{ color: muted, textTransform: "none", fontSize: 10 }}>(opcional)</span></span>
+            <input value={numInt} onChange={e => setNumInt(e.target.value)} placeholder='Ej: "102A", Solo si aplica' style={s.input} />
           </div>
         )}
 
