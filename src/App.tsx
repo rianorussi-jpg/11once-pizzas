@@ -627,7 +627,7 @@ export default function App() {
       <div style={{ background: cardHi, borderBottom: `1px solid ${border}`, padding: "10px 20px", display: "flex", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 14 }}>📍</span>
         <span style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, color: muted }}>
-          Zonas: <b style={{ color: text }}>Narvarte · Del Valle · Coyoacán · Portales</b>
+          Zonas: <b style={{ color: text }}>Narvarte · Del Valle · Coyoacán · Portales · Roma · Doctores · Alamos · Obrera · Napoles</b>
         </span>
       </div>
 
