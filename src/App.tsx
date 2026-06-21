@@ -230,8 +230,8 @@ function PizzaCard({ item, onAdd, carritoItems }) {
       <img src={item.img} alt={item.nombre} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
 
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2, flexWrap: "nowrap" }}>
-  <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.nombre}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2, flexWrap: "wrap" }}>
+  <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: text }}>{item.nombre}</span>
   {item.top && <Tag>⭐ Popular</Tag>}
 </div>
         <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, color: muted, margin: "0 0 10px", lineHeight: 1.4, textAlign: "left" }}>{item.desc}</p>
