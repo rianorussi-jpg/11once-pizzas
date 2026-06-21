@@ -594,7 +594,7 @@ export default function App() {
   const [paso, setPaso] = useState(1);
   const [carrito, setCarrito] = useState([]);
   const [entrega, setEntrega] = useState(null);
-  const [abierto, setAbierto] = useState(false);
+  const [abierto, setAbierto] = useState(null);
 
   useEffect(() => {
     fetch("https://worldtimeapi.org/api/timezone/America/Mexico_City")
@@ -604,12 +604,7 @@ export default function App() {
         const mins = fecha.getHours() * 60 + fecha.getMinutes();
         setAbierto(mins >= 11 * 60 + 11 && mins < 23 * 60 + 11);
       })
-      .catch(() => {
-        // fallback: usar hora del dispositivo
-        const now = new Date();
-        const mins = now.getHours() * 60 + now.getMinutes();
-        setAbierto(mins >= 11 * 60 + 11 && mins < 23 * 60 + 11);
-      });
+      .catch(() => setAbierto(false));
   }, []);
   const [confirmacion, setConfirmacion] = useState(null);
 
@@ -667,16 +662,18 @@ export default function App() {
             <div style={{ fontSize: 12, color: muted }}>CDMX</div>
           </div>
         </div>
-        <div style={{
-          background: abierto ? "#1a0008" : "#1a1a1a",
-          border: `1.5px solid ${abierto ? "#8b1729" : "#555"}`,
-          borderRadius: 20, padding: "6px 14px",
-          fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700,
-          color: "#fcfcfc", display: "flex", alignItems: "center", gap: 5,
-        }}>
-          <span>{abierto ? "⚡" : "🌙"}</span>
-          {abierto ? "Abierto ahora" : "Cerrado · volvemos a las 11:11"}
-        </div>
+        {abierto !== null && (
+          <div style={{
+            background: abierto ? "#1a0008" : "#1a1a1a",
+            border: `1.5px solid ${abierto ? "#8b1729" : "#555"}`,
+            borderRadius: 20, padding: "6px 14px",
+            fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700,
+            color: "#fcfcfc", display: "flex", alignItems: "center", gap: 5,
+          }}>
+            <span>{abierto ? "⚡" : "🌙"}</span>
+            {abierto ? "Abierto ahora" : "Cerrado · volvemos a las 11:11"}
+          </div>
+        )}
       </div>
 
       {/* ZONA */}
