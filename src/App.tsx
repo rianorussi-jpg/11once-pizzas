@@ -597,14 +597,13 @@ export default function App() {
   const [abierto, setAbierto] = useState(null);
 
   useEffect(() => {
-    fetch("https://worldtimeapi.org/api/timezone/America/Mexico_City")
+    fetch("https://timeapi.io/api/time/current/zone?timeZone=America%2FMexico_City")
       .then(r => r.json())
       .then(data => {
-        const fecha = new Date(data.datetime);
-        const mins = fecha.getHours() * 60 + fecha.getMinutes();
+        const mins = data.hour * 60 + data.minute;
         setAbierto(mins >= 11 * 60 + 11 && mins < 23 * 60 + 11);
       })
-      .catch(() => setAbierto(false));
+      .catch(() => setAbierto(null));
   }, []);
   const [confirmacion, setConfirmacion] = useState(null);
 
