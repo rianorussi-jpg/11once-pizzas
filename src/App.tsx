@@ -3,7 +3,7 @@ import emailjs from "@emailjs/browser";
 import { supabase } from "./supabaseClient";
 
 // ID del negocio en la tabla `businesses` del panel — pégalo aquí
-const BUSINESS_ID = "d464ee1a-44e9-4720-a2a8-f9c4c0fad254";
+const BUSINESS_ID = "PEGA-AQUI-EL-ID-DE-11ONCE";
 
 // ── PALETA ────────────────────────────────────────────────────────────────────
 const bg     = "#f0f0f0";
@@ -283,7 +283,7 @@ function PizzaCard({ item, onAdd, carritoItems }) {
 }
 
 // ── PASO 1: MENÚ ──────────────────────────────────────────────────────────────
-function PasoPizzas({ carrito, onAdd, onNext }) {
+function PasoPizzas({ carrito, onAdd, onNext, menu }) {
   const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
   const count = carrito.reduce((s, i) => s + i.cantidad, 0);
 
@@ -293,7 +293,7 @@ function PasoPizzas({ carrito, onAdd, onNext }) {
         ¿Qué te pedimos hoy?
       </h2>
 
-      {Object.entries(MENU).map(([key, cat]) => (
+      {Object.entries(menu).map(([key, cat]) => (
         <div key={key} style={{ marginBottom: 28 }}>
           <div style={{
             fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 12,
@@ -610,6 +610,25 @@ export default function App() {
       .catch(() => setAbierto(null));
   }, []);
   const [confirmacion, setConfirmacion] = useState(null);
+  const [inactivos, setInactivos] = useState(new Set());
+
+  useEffect(() => {
+    supabase
+      .from("products")
+      .select("slug, active")
+      .eq("business_id", BUSINESS_ID)
+      .then(({ data }) => {
+        if (!data) return;
+        setInactivos(new Set(data.filter((p) => !p.active).map((p) => p.slug)));
+      });
+  }, []);
+
+  const menuDisponible = Object.fromEntries(
+    Object.entries(MENU).map(([key, cat]) => [
+      key,
+      { ...cat, items: cat.items.filter((item) => !inactivos.has(item.id)) },
+    ])
+  );
 
   const agregar = ({ id, nombre, tamano, precio, img }) => {
     setCarrito(prev => {
@@ -731,7 +750,7 @@ export default function App() {
       <div style={{ maxWidth: 520, margin: "0 auto", padding: "24px 16px 40px" }}>
         {paso < 4 && <Pasos paso={paso} />}
 
-        {paso === 1 && <PasoPizzas carrito={carrito} onAdd={agregar} onNext={() => setPaso(2)} />}
+        {paso === 1 && <PasoPizzas carrito={carrito} onAdd={agregar} onNext={() => setPaso(2)} menu={menuDisponible} />}
         {paso === 2 && <PasoEntrega carrito={carrito} onQuitar={quitar} onAdd={incrementarDrawer} onNext={(e) => { setEntrega(e); setPaso(3); }} onBack={() => setPaso(1)} />}
         {paso === 3 && <PasoDatos entrega={entrega} carrito={carrito} onBack={() => setPaso(2)} onConfirmar={handleConfirmar} />}
         {paso === 4 && confirmacion && (
