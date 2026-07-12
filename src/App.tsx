@@ -642,6 +642,14 @@ export default function App() {
         customer_name: datos.nombre,
         total: entrega.total,
         status: "pendiente",
+        phone: datos.telefono,
+        delivery_type: entrega.tipo,
+        address:
+          entrega.tipo === "domicilio"
+            ? `${datos.direccion}${datos.numInt ? ` Int. ${datos.numInt}` : ""}, ${datos.colonia}, CP ${datos.cp}`
+            : null,
+        delivery_time: entrega.hora,
+        notes: datos.notas || null,
       });
 
       if (pedidoError) {
