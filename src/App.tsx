@@ -645,7 +645,11 @@ export default function App() {
         .select()
         .single();
 
-      if (pedidoError || !pedido) return;
+      if (pedidoError) {
+        console.error("Error guardando pedido en panel:", pedidoError);
+        return;
+      }
+      if (!pedido) return;
 
       const items = carrito.map((i) => ({
         order_id: pedido.id,
@@ -654,10 +658,10 @@ export default function App() {
         price: i.precio,
       }));
 
-      await supabase.from("order_items").insert(items);
-    } catch {
-      // Si falla el guardado en el panel, el pedido sigue su curso normal
-      // por Telegram/Email — no bloqueamos la confirmación al cliente.
+      const { error: itemsError } = await supabase.from("order_items").insert(items);
+      if (itemsError) console.error("Error guardando items del pedido:", itemsError);
+    } catch (err) {
+      console.error("Error inesperado guardando pedido:", err);
     }
   };
 
