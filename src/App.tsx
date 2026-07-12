@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+import { supabase } from "./supabaseClient";
+
+// ID del negocio en la tabla `businesses` del panel — pégalo aquí
+const BUSINESS_ID = "d464ee1a-44e9-4720-a2a8-f9c4c0fad254";
 
 // ── PALETA ────────────────────────────────────────────────────────────────────
 const bg     = "#f0f0f0";
@@ -628,10 +632,40 @@ export default function App() {
     agregar({ id, nombre, tamano, precio, img });
   };
 
+  const guardarPedidoEnPanel = async ({ datos, entrega, carrito }) => {
+    try {
+      const { data: pedido, error: pedidoError } = await supabase
+        .from("orders")
+        .insert({
+          business_id: BUSINESS_ID,
+          customer_name: datos.nombre,
+          total: entrega.total,
+          status: "pendiente",
+        })
+        .select()
+        .single();
+
+      if (pedidoError || !pedido) return;
+
+      const items = carrito.map((i) => ({
+        order_id: pedido.id,
+        product_name: `${i.nombre} (${i.tamano})`,
+        quantity: i.cantidad,
+        price: i.precio,
+      }));
+
+      await supabase.from("order_items").insert(items);
+    } catch {
+      // Si falla el guardado en el panel, el pedido sigue su curso normal
+      // por Telegram/Email — no bloqueamos la confirmación al cliente.
+    }
+  };
+
   const handleConfirmar = async (datos) => {
     const num = Math.floor(Math.random() * 9999) + 1;
     const folio = `#11:${String(num).padStart(4, "0")}`;
 
+    await guardarPedidoEnPanel({ datos, entrega, carrito });
     await enviarTelegram({ datos, folio, carrito, entrega });
     enviarEmailAdmin({ datos, folio, carrito, entrega });
     enviarEmailCliente({ datos, folio, carrito, entrega });
