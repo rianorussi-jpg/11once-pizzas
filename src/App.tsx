@@ -3,7 +3,7 @@ import emailjs from "@emailjs/browser";
 import { supabase } from "./supabaseClient";
 
 // ID del negocio en la tabla `businesses` del panel — pégalo aquí
-const BUSINESS_ID = "PEGA-AQUI-EL-ID-DE-11ONCE";
+const BUSINESS_ID = "d464ee1a-44e9-4720-a2a8-f9c4c0fad254";
 
 // ── PALETA ────────────────────────────────────────────────────────────────────
 const bg     = "#f0f0f0";
