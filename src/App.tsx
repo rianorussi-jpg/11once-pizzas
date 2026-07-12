@@ -634,25 +634,23 @@ export default function App() {
 
   const guardarPedidoEnPanel = async ({ datos, entrega, carrito }) => {
     try {
-      const { data: pedido, error: pedidoError } = await supabase
-        .from("orders")
-        .insert({
-          business_id: BUSINESS_ID,
-          customer_name: datos.nombre,
-          total: entrega.total,
-          status: "pendiente",
-        })
-        .select()
-        .single();
+      const orderId = crypto.randomUUID();
+
+      const { error: pedidoError } = await supabase.from("orders").insert({
+        id: orderId,
+        business_id: BUSINESS_ID,
+        customer_name: datos.nombre,
+        total: entrega.total,
+        status: "pendiente",
+      });
 
       if (pedidoError) {
         console.error("Error guardando pedido en panel:", pedidoError);
         return;
       }
-      if (!pedido) return;
 
       const items = carrito.map((i) => ({
-        order_id: pedido.id,
+        order_id: orderId,
         product_name: `${i.nombre} (${i.tamano})`,
         quantity: i.cantidad,
         price: i.precio,
