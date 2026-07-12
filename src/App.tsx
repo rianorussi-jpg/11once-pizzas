@@ -210,7 +210,7 @@ function Pasos({ paso }) {
 }
 
 // ── TARJETA DE PIZZA ──────────────────────────────────────────────────────────
-function PizzaCard({ item, onAdd, carritoItems }) {
+function PizzaCard({ item, onAdd, carritoItems, agotado }) {
   const tamanos = Object.keys(item.precios);
   const [tam, setTam] = useState(tamanos[Math.min(1, tamanos.length - 1)]);
   const [flash, setFlash] = useState(false);
@@ -218,6 +218,7 @@ function PizzaCard({ item, onAdd, carritoItems }) {
   const enCarrito = carritoItems.filter(i => i.id === item.id).reduce((s, i) => s + i.cantidad, 0);
 
   const handleAdd = () => {
+    if (agotado) return;
     onAdd({ id: item.id, nombre: item.nombre, tamano: tam, precio: item.precios[tam], img: item.img });
     setFlash(true);
     setTimeout(() => setFlash(false), 900);
@@ -232,22 +233,23 @@ function PizzaCard({ item, onAdd, carritoItems }) {
       display: "flex",
       alignItems: "center",
       gap: 14,
-      transition: "border-color 0.2s",
+      transition: "border-color 0.2s, opacity 0.2s",
       cursor: "default",
+      opacity: agotado ? 0.5 : 1,
     }}
-      onMouseEnter={e => e.currentTarget.style.borderColor = accent + "66"}
+      onMouseEnter={e => !agotado && (e.currentTarget.style.borderColor = accent + "66")}
       onMouseLeave={e => e.currentTarget.style.borderColor = border}
     >
-      <img src={item.img} alt={item.nombre} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
+      <img src={item.img} alt={item.nombre} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 12, flexShrink: 0, filter: agotado ? "grayscale(1)" : "none" }} />
 
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
           <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: text }}>{item.nombre}</span>
-          {item.top && <Tag>☆Popular</Tag>}
+          {agotado ? <Tag>Agotada</Tag> : item.top && <Tag>☆Popular</Tag>}
         </div>
         <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, color: muted, margin: "0 0 10px", lineHeight: 1.4, textAlign: "left" }}>{item.desc}</p>
 
-        {tamanos.length > 1 && (
+        {!agotado && tamanos.length > 1 && (
           <div style={{ display: "flex", gap: 6, marginBottom: 0 }}>
             {tamanos.map(t => (
               <button key={t} onClick={() => setTam(t)} style={{
@@ -263,19 +265,21 @@ function PizzaCard({ item, onAdd, carritoItems }) {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
-        <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 800, fontSize: 17, color: accent }}>
-          ${item.precios[tam]}
-        </span>
-        <button onClick={handleAdd} style={{
-          border: "none", cursor: "pointer", borderRadius: 10,
+        {!agotado && (
+          <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 800, fontSize: 17, color: accent }}>
+            ${item.precios[tam]}
+          </span>
+        )}
+        <button onClick={handleAdd} disabled={agotado} style={{
+          border: "none", cursor: agotado ? "not-allowed" : "pointer", borderRadius: 10,
           padding: "7px 14px",
-          background: flash ? "#2a5c2a" : pill,
-          color: flash ? "#7fff7f" : text,
+          background: agotado ? border : flash ? "#2a5c2a" : pill,
+          color: agotado ? muted : flash ? "#7fff7f" : text,
           fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 13,
           transition: "all 0.2s", whiteSpace: "nowrap",
           display: "flex", alignItems: "center", gap: 5,
         }}>
-          {flash ? "✓" : enCarrito > 0 ? `+1 (${enCarrito})` : "+ Agregar"}
+          {agotado ? "Agotada" : flash ? "✓" : enCarrito > 0 ? `+1 (${enCarrito})` : "+ Agregar"}
         </button>
       </div>
     </div>
@@ -283,7 +287,7 @@ function PizzaCard({ item, onAdd, carritoItems }) {
 }
 
 // ── PASO 1: MENÚ ──────────────────────────────────────────────────────────────
-function PasoPizzas({ carrito, onAdd, onNext, menu }) {
+function PasoPizzas({ carrito, onAdd, onNext, menu, inactivos }) {
   const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
   const count = carrito.reduce((s, i) => s + i.cantidad, 0);
 
@@ -302,7 +306,7 @@ function PasoPizzas({ carrito, onAdd, onNext, menu }) {
           }}>{cat.label}</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {cat.items.map(item => (
-              <PizzaCard key={item.id} item={item} onAdd={onAdd} carritoItems={carrito} />
+              <PizzaCard key={item.id} item={item} onAdd={onAdd} carritoItems={carrito} agotado={inactivos.has(item.id)} />
             ))}
           </div>
         </div>
@@ -617,18 +621,15 @@ export default function App() {
       .from("products")
       .select("slug, active")
       .eq("business_id", BUSINESS_ID)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error cargando disponibilidad del menú:", error);
+          return;
+        }
         if (!data) return;
         setInactivos(new Set(data.filter((p) => !p.active).map((p) => p.slug)));
       });
   }, []);
-
-  const menuDisponible = Object.fromEntries(
-    Object.entries(MENU).map(([key, cat]) => [
-      key,
-      { ...cat, items: cat.items.filter((item) => !inactivos.has(item.id)) },
-    ])
-  );
 
   const agregar = ({ id, nombre, tamano, precio, img }) => {
     setCarrito(prev => {
@@ -750,7 +751,7 @@ export default function App() {
       <div style={{ maxWidth: 520, margin: "0 auto", padding: "24px 16px 40px" }}>
         {paso < 4 && <Pasos paso={paso} />}
 
-        {paso === 1 && <PasoPizzas carrito={carrito} onAdd={agregar} onNext={() => setPaso(2)} menu={menuDisponible} />}
+        {paso === 1 && <PasoPizzas carrito={carrito} onAdd={agregar} onNext={() => setPaso(2)} menu={MENU} inactivos={inactivos} />}
         {paso === 2 && <PasoEntrega carrito={carrito} onQuitar={quitar} onAdd={incrementarDrawer} onNext={(e) => { setEntrega(e); setPaso(3); }} onBack={() => setPaso(1)} />}
         {paso === 3 && <PasoDatos entrega={entrega} carrito={carrito} onBack={() => setPaso(2)} onConfirmar={handleConfirmar} />}
         {paso === 4 && confirmacion && (
