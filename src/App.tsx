@@ -627,6 +627,7 @@ export default function App() {
           return;
         }
         if (!data) return;
+        console.log("Productos y disponibilidad recibidos:", data);
         setInactivos(new Set(data.filter((p) => !p.active).map((p) => p.slug)));
       });
   }, []);
